@@ -353,4 +353,60 @@ SELECT RIGHT('ABCD', 3);
 
 SELECT RIGHT('ABCD', -2);
 
+SELECT last_name, RIGHT(last_name, 2)
+FROM directors
+where RIGHT(last_name, 2) = 'on';
 
+
+SELECT REVERSE('Amazing PostgreSQL');
+
+
+-- SPLIT_PART() splits a string on a specified delimeter and returns the nth substring
+-- SPLIT_PART(string, delimeter, position)
+SELECT SPLIT_PART('1, 2, 3', ',', 2);
+SELECT SPLIT_PART('ONE, TWO, THREE', ',', 2);
+
+SELECT movie_name, release_date, 
+SPLIT_PART(realse_date::text, '-', 1) as release_year
+FROM movies;
+
+
+-- TRIM() function removes the longest string that contains a specific character from a string
+-- TRIM([LEADING | TRAILING | BOTH] [characters] FROM string);
+SELECT 
+    TRIM(
+        LEADING
+        FROM
+        '  Amazing Postgresql'
+    ),
+    TRIM(
+        TRAILING
+        FROM
+        'Amazing Postgresql  '
+    ),
+    TRIM(
+        '  Amazing Postgresql  '
+    );
+
+-- removing say leading zero from number
+SELECT 
+    TRIM(
+        LEADING '0'
+        FROM
+            CAST (000123456 AS TEXT)
+    );
+
+SELECT LTRIM('yummy', 'y');
+
+SELECT RTRIM('yummy', 'y');
+
+SELECT BTRIM('yummy', 'y');
+
+
+-- LPAD, RPAD pads a string on the side to specified length with a sequence of characters
+-- LPAD(string, length[, fill]) fill argument is optional, if you omit default value is space
+
+SELECT LPAD('Database', 15, '*');
+SELECT RPAD('Database', 15, '*');
+
+SELECT LPAD('111', 6, 'A');
