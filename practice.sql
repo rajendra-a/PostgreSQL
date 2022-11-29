@@ -330,3 +330,27 @@ SELECT * FROM users;
 ALTER SEQUENCE users_user_id_seq RESTART WITH 100;
 
 
+-- String Functions
+
+SELECT UPPER('amazing postgresql');
+
+SELECT INITCAP('The world is changing with a lightening  speed');
+
+
+SELECT 
+    UPPER(first_name) as first_name,
+    UPPER(last_name) as last_name
+FROM directiors;
+
+SELECT LOWER('RAJENDRA');
+
+SELECT LEFT('ABCD', 10);
+
+SELECT LEFT('Akkala Rajendra', 1) as initial;
+
+
+SELECT RIGHT('ABCD', 3);
+
+SELECT RIGHT('ABCD', -2);
+
+
