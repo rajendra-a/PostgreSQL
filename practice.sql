@@ -1,6 +1,4 @@
 -- Active: 1666183948709@@127.0.0.1@5432@movies
-/* 2022-10-19 18:26:15 [8 ms] */ 
-/* 2022-10-20 17:12:27 [43 ms] */ 
 CREATE TABLE persons (
     person_id SERIAL PRIMARY KEY,
     first_name VARCHAR(20) NOT NULL,
@@ -236,32 +234,32 @@ SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' and '300'
 ORDER BY revenues_domestic;
-/* 2022-10-19 19:10:23 [10 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' AND '300'
 ORDER BY revenues_domestic;
-/* 2022-10-19 19:11:05 [6 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' AND '300'
 ORDER BY revenues_domestic nulls last;
-/* 2022-10-19 19:11:05 [6 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' AND '300'
 ORDER BY revenues_domestic nulls last;
-/* 2022-10-19 19:12:34 [6 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' AND '300'
 ORDER BY revenues_domestic NULLS LAST;
-/* 2022-10-19 19:12:34 [6 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' AND '300'
 ORDER BY revenues_domestic NULLS LAST;
-/* 2022-10-19 19:13:19 [6 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' AND '300'
@@ -271,243 +269,242 @@ SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic BETWEEN '100' and '300'
 ORDER BY revenues_domestic, revenues_international NULLS LAST;
-/* 2022-10-19 19:14:48 [16 ms] */ 
+
 SELECT * FROM movies
 WHERE 
     movie_length BETWEEN '100' and '200'
 ORDER BY movie_length NULLS LAST;
-/* 2022-10-19 19:14:48 [16 ms] */ 
+
 SELECT * FROM movies
 WHERE 
     movie_length BETWEEN '100' and '200'
 ORDER BY movie_length NULLS LAST;
-/* 2022-10-19 19:24:40 [10 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      first_name LIKE 'A%';
-/* 2022-10-19 19:24:40 [10 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      first_name LIKE 'A%';
-/* 2022-10-19 19:27:05 [9 ms] */ 
+
 SELECT * FROM actors
 WHERE 
      last_name LIKE '%A';
-/* 2022-10-19 19:27:05 [9 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      last_name LIKE '%A';
-/* 2022-10-19 19:27:23 [5 ms] */ 
+
 SELECT * FROM actors
 WHERE 
      last_name LIKE '%a';
-/* 2022-10-19 19:27:23 [5 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      last_name LIKE '%a';
-/* 2022-10-19 19:29:00 [7 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      first_name LIKE '_____';
-/* 2022-10-19 19:29:00 [7 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      first_name LIKE '_____';
-/* 2022-10-19 19:35:14 [10 ms] */ 
+
 SELECT * FROM actors
 WHERE 
      first_name LIKE '%l%';
-/* 2022-10-19 19:35:14 [10 ms] */ 
+
 SELECT * FROM actors
 WHERE 
      first_name LIKE '%l%';
-/* 2022-10-19 19:35:25 [8 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      first_name LIKE '_l%';
-/* 2022-10-19 19:35:25 [8 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      first_name LIKE '_l%';
-/* 2022-10-19 19:39:44 [6 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      date_of_birth is NULL;
-/* 2022-10-19 19:39:44 [6 ms] */ 
+
 SELECT * FROM actors
 WHERE 
      date_of_birth is NULL;
-/* 2022-10-19 19:40:04 [9 ms] */ 
+
 SELECT * FROM actors
 WHERE 
      date_of_birth IS NULL;
-/* 2022-10-19 19:40:04 [9 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      date_of_birth IS NULL;
-/* 2022-10-19 19:41:14 [9 ms] */ 
+ 
 SELECT * FROM actors
 WHERE 
      date_of_birth IS NULL or first_name IS NULL;
-/* 2022-10-19 19:41:14 [9 ms] */ 
+
 SELECT * FROM actors
 WHERE 
      date_of_birth IS NULL or first_name IS NULL;
-/* 2022-10-19 19:43:05 [8 ms] */ 
+ 
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic IS NULL;
-/* 2022-10-19 19:43:05 [8 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic IS NULL;
-/* 2022-10-19 19:43:59 [9 ms] */ 
+ 
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic IS NULL
 ORDER BY revenues_domestic;
-/* 2022-10-19 19:43:59 [9 ms] */ 
+ 
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic IS NULL
 ORDER BY revenues_domestic;
-/* 2022-10-19 19:48:36 [2 ms] */ 
+ 
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic = NULL
 ORDER BY revenues_domestic;
-/* 2022-10-19 19:48:36 [2 ms] */ 
+
 SELECT * FROM movies_revenues
 WHERE 
     revenues_domestic = NULL
 ORDER BY revenues_domestic;
-/* 2022-10-19 19:53:53 [7 ms] */ 
 select * from  movies
 where movie_length not between 100 and 200;
-/* 2022-10-19 19:53:53 [7 ms] */ 
+ 
 select * from  movies
 where movie_length not between 100 and 200;
-/* 2022-10-19 20:00:12 [12 ms] */ 
+
 SELECT CONCAT(first_name, last_name) AS "ActorName" 
 FROM actors;
-/* 2022-10-19 20:00:12 [12 ms] */ 
+
 SELECT CONCAT(first_name, last_name) AS "ActorName" 
 FROM actors;
-/* 2022-10-19 20:00:42 [12 ms] */ 
+
 SELECT CONCAT(first_name, last_name) AS "Actor Name" 
 FROM actors;
-/* 2022-10-19 20:00:42 [12 ms] */ 
+
 SELECT CONCAT(first_name, last_name) AS "Actor Name" 
 FROM actors;
-/* 2022-10-19 20:02:04 [4 ms] */ 
+
 select 'hello' || 'world' as "newstring";
-/* 2022-10-19 20:02:04 [4 ms] */ 
+
 select 'hello' || 'world' as "newstring";
-/* 2022-10-19 20:06:21 [9 ms] */ 
+
 SELECT CONCAT_WS(',',first_name, last_name) AS "Actor Name" 
 FROM actors;
-/* 2022-10-19 20:06:21 [9 ms] */ 
+ 
 SELECT CONCAT_WS(',',first_name, last_name) AS "Actor Name" 
 FROM actors;
-/* 2022-10-19 20:07:23 [7 ms] */ 
+
 SELECT CONCAT_WS(',',first_name, last_name, date_of_birth) AS "Actor Name" 
 FROM actors;
-/* 2022-10-19 20:07:23 [7 ms] */ 
+
 SELECT CONCAT_WS(',',first_name, last_name, date_of_birth) AS "Actor Name" 
 FROM actors;
-/* 2022-10-21 18:08:17 [18 ms] */ 
+
 SELECT 
     release_date,
     TO_CHAR(release_date,'DD-MM-YYYY'),
     TO_CHAR(release_date,'Dy, Month, YYYY')
 FROM movies;
-/* 2022-10-21 18:08:17 [18 ms] */ 
+
 SELECT 
     release_date,
     TO_CHAR(release_date,'DD-MM-YYYY'),
     TO_CHAR(release_date,'Dy, Month, YYYY')
 FROM movies;
-/* 2022-10-21 18:19:31 [15 ms] */ 
+
 select * from pg_catalog.pg_tables;
-/* 2022-10-21 18:19:31 [15 ms] */ 
+
 select * from pg_catalog.pg_tables;
-/* 2022-10-21 18:22:13 [6 ms] */ 
+
 select * from pg_catalog.pg_tables where schemaname='movies';
-/* 2022-10-21 18:22:13 [6 ms] */ 
+
 select * from pg_catalog.pg_tables where schemaname='movies';
-/* 2022-10-21 18:26:28 [15 ms] */ 
+
 select table_name, column_name, data_type
 from information_schema.columns
 where table_name = 'moveis';
-/* 2022-10-21 18:26:28 [15 ms] */ 
+ 
 select table_name, column_name, data_type
 from information_schema.columns
 where table_name = 'moveis';
-/* 2022-10-21 18:30:40 [7 ms] */ 
+
 select 
 TO_CHAR(TIMESTAMP '2022-10-01 10:13:12', 'hh:mi:ss');
-/* 2022-10-21 18:30:40 [7 ms] */ 
+
 select 
 TO_CHAR(TIMESTAMP '2022-10-01 10:13:12', 'hh:mi:ss');
-/* 2022-10-21 18:31:10 [2 ms] */ 
+ 
 select 
 TO_CHAR(TIMESTAMP '2022-10-01 10:13:12', 'HH:MI:SS');
-/* 2022-10-21 18:31:10 [2 ms] */ 
+ 
 select 
 TO_CHAR(TIMESTAMP '2022-10-01 10:13:12', 'HH:MI:SS');
-/* 2022-10-21 18:38:13 [21 ms] */ 
+ 
 SELECT * FROM movies_revenues;
-/* 2022-10-21 18:38:13 [21 ms] */ 
+ 
 SELECT * FROM movies_revenues;
-/* 2022-10-21 18:50:49 [8 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 9,9999')
 FROM movies_revenues;
-/* 2022-10-21 18:50:49 [8 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 9,9999')
 FROM movies_revenues;
-/* 2022-10-21 18:52:13 [5 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 9.9999')
 FROM movies_revenues;
-/* 2022-10-21 18:52:13 [5 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 9.9999')
 FROM movies_revenues;
-/* 2022-10-21 18:53:10 [5 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 999.9999')
 FROM movies_revenues;
-/* 2022-10-21 18:53:10 [5 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 999.9999')
 FROM movies_revenues;
-/* 2022-10-21 18:53:41 [26 ms] */ 
+ 
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 999D9999')
 FROM movies_revenues;
-/* 2022-10-21 18:53:41 [26 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 999D9999')
 FROM movies_revenues;
-/* 2022-10-21 19:11:46 [5 ms] */ 
+
 SELECT TO_NUMBER('123.56', '99999');
-/* 2022-10-21 19:11:46 [5 ms] */ 
+ 
 SELECT TO_NUMBER('123.56', '99999');
-/* 2022-10-21 19:12:14 [7 ms] */ 
+
 SELECT TO_NUMBER('123.56', '999');
-/* 2022-10-21 19:12:14 [7 ms] */ 
+
 SELECT TO_NUMBER('123.56', '999');
-/* 2022-10-21 19:12:19 [3 ms] */ 
+
 SELECT TO_NUMBER('123.56', '99956');
-/* 2022-10-21 19:12:19 [3 ms] */ 
+
 SELECT TO_NUMBER('123.56', '99956');
-/* 2022-10-21 19:12:29 [7 ms] */ 
+
 SELECT TO_NUMBER('123.56', '99999');
-/* 2022-10-21 19:12:29 [7 ms] */ 
+
 SELECT TO_NUMBER('123.56', '99999');
-/* 2022-10-21 19:14:13 [4 ms] */ 
+
 SELECT TO_NUMBER(
     '10,625.78-',
     '99g999d999'
@@ -566,119 +563,118 @@ SELECT TO_NUMBER(
     '1,420.65',
     'L9g999d34'
 );
-/* 2022-10-21 19:27:45 [4 ms] */ 
+
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d34'
 );
-/* 2022-10-21 19:27:45 [4 ms] */ 
+ 
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d34'
 );
-/* 2022-10-21 19:28:02 [6 ms] */ 
+ 
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d99'
 );
-/* 2022-10-21 19:28:02 [6 ms] */ 
+ 
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d99'
 );
-/* 2022-10-21 19:28:18 [2 ms] */ 
+
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d'
 );
-/* 2022-10-21 19:28:18 [2 ms] */ 
+ 
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d'
 );
-/* 2022-10-21 19:28:22 [5 ms] */ 
+
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d99'
 );
-/* 2022-10-21 19:28:22 [5 ms] */ 
+ 
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d99'
 );
-/* 2022-10-21 19:28:28 [7 ms] */ 
+
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d66'
 );
-/* 2022-10-21 19:28:28 [7 ms] */ 
+
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d66'
 );
-/* 2022-10-21 19:28:32 [3 ms] */ 
+ 
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d688'
 );
-/* 2022-10-21 19:28:32 [3 ms] */ 
+
 SELECT TO_NUMBER(
     '1,420.65',
     '9g999d688'
 );
-/* 2022-10-21 19:34:13 [7 ms] */ 
+
 SELECT TO_DATE('2020/07/01','YYYY/MM/DD');
-/* 2022-10-21 19:34:13 [7 ms] */ 
+
 SELECT TO_DATE('2020/07/01','YYYY/MM/DD');
-/* 2022-10-21 19:34:49 [9 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 999D9999')
 FROM movies_revenues;
-/* 2022-10-21 19:34:49 [9 ms] */ 
+
 SELECT revenues_international, 
 TO_CHAR(revenues_international, '$ 999D9999')
 FROM movies_revenues;
-/* 2022-10-21 19:37:29 [3 ms] */ 
+
 SELECT TO_DATE('022799','MMDDYY');
-/* 2022-10-21 19:37:29 [3 ms] */ 
+
 SELECT TO_DATE('022799','MMDDYY');
-/* 2022-10-21 19:38:25 [4 ms] */ 
+
 SELECT TO_DATE('033199','MMDDYY');
-/* 2022-10-21 19:38:25 [4 ms] */ 
+ 
 SELECT TO_DATE('033199','MMDDYY');
-/* 2022-10-21 19:44:20 [2 ms] */ 
+ 
 SELECT TO_DATE('March 03, 1993', 'Month DD, YYYY');
-/* 2022-10-21 19:44:20 [2 ms] */ 
+
 SELECT TO_DATE('March 03, 1993', 'Month DD, YYYY');
-/* 2022-10-21 19:44:27 [1 ms] */ 
+
 SELECT TO_DATE('March11, 1993', 'Month DD, YYYY');
-/* 2022-10-21 19:44:27 [1 ms] */ 
+
 SELECT TO_DATE('March11, 1993', 'Month DD, YYYY');
-/* 2022-10-21 19:44:31 [2 ms] */ 
+
 SELECT TO_DATE('March 11, 1993', 'Month DD, YYYY');
-/* 2022-10-21 19:44:31 [2 ms] */ 
+
 SELECT TO_DATE('March 11, 1993', 'Month DD, YYYY');
-/* 2022-10-21 19:45:41 [7 ms] */ 
+
 SELECT TO_DATE('2020/12/11','YYYY/MM/DD');
-/* 2022-10-21 19:45:41 [7 ms] */ 
+
 SELECT TO_DATE('2020/12/11','YYYY/MM/DD');
-/* 2022-10-21 19:46:56 [5 ms] */ 
+
 SELECT TO_DATE('2020/02/25','YYYY/MM/DD');
-/* 2022-10-21 19:46:56 [5 ms] */ 
 SELECT TO_DATE('2020/02/25','YYYY/MM/DD');
-/* 2022-10-21 19:49:04 [4 ms] */ 
+
 SELECT TO_CHAR(1234, '7,786.87');
-/* 2022-10-21 19:49:04 [4 ms] */ 
+
 SELECT TO_CHAR(1234, '7,786.87');
-/* 2022-10-21 19:51:09 [13 ms] */ 
+
 SELECT TO_TIMESTAMP('2020-10-28 10:38:25', 'YYYY-MM-DD');
-/* 2022-10-21 19:51:09 [13 ms] */ 
+
 SELECT TO_TIMESTAMP('2020-10-28 10:38:25', 'YYYY-MM-DD');
-/* 2022-10-21 19:52:04 [5 ms] */ 
+
 SELECT TO_TIMESTAMP('2020-10-28 10:38:25', 'YYYY-MM-DD HH-MI-SS');
-/* 2022-10-21 19:52:04 [5 ms] */ 
+
 SELECT TO_TIMESTAMP('2020-10-28 10:38:25', 'YYYY-MM-DD HH-MI-SS');
-/* 2022-10-21 19:55:02 [1 ms] */ 
+
 SELECT CURRENT_TIMESTAMP;
 
 SELECT CURRENT_TIMESTAMP;
@@ -729,7 +725,8 @@ DROP DOMAIN proper_mail;
 DROP TABLE client_names;
 
 INSERT INTO client_names (email) VALUES ('rajendra@gmail.com');
--- composite type
+
+-- Composite type
 
 CREATE TYPE address  AS (
     city VARCHAR(50),
@@ -2273,4 +2270,167 @@ first_name,
 last_name
 FROM actors
 WHERE gender = 'F';
+
+
+-- What is an INDEX
+
+-- An index is a structured relation
+-- An index help improve the access of data in our database
+-- Indexed Tuples point to the table page where the tuple is stored
+-- An index is a data structure that allows faster access to the underlying table so that specific tuples
+-- can be found quickly. Here, "quickly" means faster than scanning the whole udnerlying table and analyzing every single tuple
+-- Maitaining an index is a fundamental for having a good performance
+-- Perfomance tuning is one of the most complex tasks in the daily job of database administrator
+-- Adding indices may improve the speed of the data access but they add a COST to the data modification.
+-- put them on table column or columns 
+-- why not put an index on all columns
+-- Too many indexes will result in slow insert / update / delete operators
+-- PostgreSQL supports indexs with up to 32 columns
+-- Two main basic index type
+-- INDEX create an index on only values of a column  or columns
+-- UNIQUE INDEX create an index on only UINQUE values of column or columns
+/*CREATE INDEX index_name
+ON table_name (col1, col2, ...)
+
+CREATE UNIQUE INDEX index_name
+ON table_name (col1, col2, ...)
+
+CREATE INDEX index_name ON table_name [USING method]
+(
+    column_name [ASC | DESC] [NULLS {FIRST | LAST}],
+    .....
+);
+
+-- try to keep the naming conventions unique and globally accessible
+INDEX                   CREATE INDEX idx_table_name_column_name_col2
+UNIQUE INDEX            CREATE INDEX idx_u_table_name_column_names
+
+
+*/
+
+-- Create an INDEX ON order_date on orders table
+CREATE INDEX idex_orders_order_date ON orders (order_date);
+CREATE INDEX idx_orders_ship_city ON orders (ship_city);
+
+-- Create an index on multiple fields say orders -> customer_id, order_id
+
+CREATE INDEX idx_orders_customer_id_order_id ON orders (customer_id, order_id);
+/* It is important to note that, when creating multi-column indexes, you should always place the most 
+selective columns first. PostgreSQL will consider a multi-column index from the first column onward, so if the first columns are the most
+selective, the index access method will be the cheapest
+- order of the field
+- how you are using in WHERE clauses etc
+*/
+-- Using pgadmin to create an index
+-- shippers -> compnay_name
+
+--  How to create unique indexes 
+-- Primary key and indexes
+-- 1. Normally the primary key of table are kept with a UNIQUE INDEX
+-- 2. If you define a UNIQUE index for two or more columns, the combined values in these columns cannot be duplicated in multiple rows. 
+
+-- Lets create a UNIQUE index on products table on product_id
+CREATE UNIQUE INDEX idx_u_products_product_id ON products (product_id); 
+-- Lets create a UNIQUE  index on employees table on employee_id
+CREATE UNIQUE INDEX idx_u_employees_employee_id ON employees (employee_id);
+
+-- How about UNIQUE on multiple columns
+CREATE UNIQUE INDEX idx_u_orders_order_id_customer_id ON orders (order_id, customer_id);
+
+CREATE UNIQUE INDEX idx_u_employees_employee_id_hire_date ON employees (employee_id, hire_date);
+
+
+-- List all indexes 
+-- pg_indexes
+-- all indices
+SELECT * 
+FROM pg_indexes;
+
+SELECT *
+FROM pg_indexes
+WHERE schemaname = 'public'
+ORDER BY 
+    tablename,
+    indexname;
+
+-- indexes of a table
+SELECT *
+FROM pg_indexes
+WHERE tablename = 'orders'
+ORDER BY 
+    tablename,
+    indexname;
+
+-- Size of the table index
+-- Lets create an index on supplier -> region
+SELECT
+pg_indexes_size('orders');
+
+CREATE INDEX idx_suppliers_region ON suppliers (region);
+
+CREATE UNIQUE INDEX idx_u_suppliers_supplier_id ON suppliers (supplier_id);
+
+
+-- List counts for all indexes
+-- Adding indices may improve the speed of the data access but they add a COST to the data modification.
+-- Therefore it is important to understand if the index is used
+-- pg_stat_all_indexes
+-- all 
+
+
+SELECT
+* FROM
+pg_stat_all_indexes;
+WHERE schemaname = 'public'
+ORDER BY relname, indexrelname;
+
+-- How to drop a schema;
+/* DROP INDEX [ CONCURRENTLY]
+[IF EXISTS] index_name
+[CASCADE | RESTRICT]
+
+
+-- CASCADE, if the index has dependent objects, you use CASCADE option to automatically drop these objects and all objects that depends on these objects
+-- RESTRICT, The RESTRICT option instructs PostgreSQL to refuse to drop the index if any objects depend on it.
+-- The drop index use restrict by default.
+-- CONCURRENTLY, When you execute the drop index statement, PostgreSQL acquires an exclusive lock on the table and block other access untill the ADD
+-- index removal completes
+*/
+DROP INDEX idx_suppliers_region;
+
+
+-- Views
+-- You can save your query into a view. so instead of writing long queries, you can just refer to a VIEW.
+-- A VIEW is a database object that is of a 'stored query'
+-- A VIEW is a virtual table you can create dynamically using a saved query acting as a 'virtual table'
+-- VIEWS helps to encapsulate queries and logic resusable PostgreSQL database objects that will speed up your work
+-- Views are like do not repeat yourself
+-- Similar
+    -- query a view,
+    -- join  a view to regular tables,
+    -- use the view to update or insert data into the table its based on albiet with some caviets
+-- a regular do not store any data except the 'materialized views'.
+-- please note that a regular views do not store any data except the 'materialized views'
+-- How views are useful?
+-- Views are especially useful becuase they allow you to:
+-- Avoid duplicate  effort by letting you to write a query once and access the results when needed
+-- Reduce complexity for yourself or other database users by showing only columns relavant to your needs
+-- Provide security by limiting access to only certian in a table
+-- Like a table, you can grant permission to users through a view that contains specific data or columns that the users are authorized to see.
+-- CREATE a VIEW
+/* CREATE OR REPLACE VIEW view_name AS query
+-- 'query' can be;
+SELECT
+SELECT with subquery
+SELECT with joins
+pretty much anything that you run via SELECT can be turned into a view!
+*/
+
+CREATE OR REPLACE VIEW v_movie_quick AS
+SELECT movie_name,
+        movie_length, 
+        release_date
+FROM movies mv;
+
+
 
