@@ -1,4 +1,4 @@
--- Active: 1666183948709@@127.0.0.1@5432@movies
+-- Active: 1671310243994@@127.0.0.1@5432@movies
 CREATE TABLE persons (
     person_id SERIAL PRIMARY KEY,
     first_name VARCHAR(20) NOT NULL,
@@ -2785,7 +2785,7 @@ INSERT INTO v_cities_c_us (country_code, city_name) VALUES
 -- The LOCAL conditions are satisfied within the CURRENT VIEW i.e v_cities_c_us
 -- The data must be of country_code = 'US' for all data!!
 
--- Now lets use CASCADE and see what is the effect! Rememer It goes up 
+-- Now lets use CASCADE and see what is the effect! Remember It goes up 
 CREATE OR REPLACE VIEW v_cities_c_us AS
 SELECT
 country_id,
@@ -2808,4 +2808,516 @@ INSERT INTO v_cities_c_us (country_code, city_name) VALUES
 SELECT * FROM v_cities_c_us;
 
 -- WITH CASCADED CHECK OPTION clause the PostgreSQL checks not only the conditions for
---  current_view v_cities_c_us view, but also all the underlying views, in this case, it is the v_cities_us
+-- current_view v_cities_c_us view, but also all the underlying views, in this case, it is the v_cities_us
+
+
+-- A subquery is allows you to construct a complex query.
+-- A subquery is nested inside another query 
+-- Typically, it's used for a calculation or logical test that provides a value or set of data to passed
+-- into the main portion of query
+-- The syntax is pretty simple. we just enclose the subquery in () paranthesis and use it where needed.
+-- Subqueries can nested inside a SELECT, INSERT, UPDATE, or DELETE
+-- Can also be used after FROM or WHERE
+/* Syntax 
+Outer query
+    (inner query)
+SELECT 
+    column_list
+FROM table_name
+WHERE
+(
+    SELECT 
+        column list
+    from table_name
+    );
+
+-- Filtering with subqueries in a WHERE clause
+-- 1.Lets take a scenario 
+-- a. Find the movies average movie length and then
+-- b. Use the results from the first query and then used SELECT to find movies which are more than average movie LENGTH
+*/
+SELECT 
+    AVG(movie_length) 
+FROM movies;
+
+
+SELECT 
+    movie_name,
+    movie_length
+FROM movies
+WHERE
+    movie_length > 
+    (
+    SELECT 
+             AVG(movie_length) 
+    FROM movies
+    WHERE movie_lang = 'English'
+    
+    ) 
+ORDER BY movie_length DESC;
+
+
+-- Get first name and last name of all actors who are younger than Douglas Silva
+-- Always start with inner query
+
+SELECT
+ first_name,
+ last_name,
+ date_of_birth
+FROM actors
+WHERE date_of_birth >
+(
+SELECT 
+    date_of_birth
+FROM actors
+WHERE first_name = 'Douglas'
+);
+
+
+-- subquery with IN operator
+SELECT 
+    movie_name,
+    movie_lang
+FROM movies
+WHERE 
+    movie_id IN
+(
+SELECT movie_id
+FROM movies_revenues
+WHERE 
+    revenues_domestic > 200
+);
+
+-- Find all movies where domestic revenues are higher than the international revenues
+
+SELECT 
+    movie_id,
+    movie_name
+FROM movies
+
+WHERE movie_id IN
+(
+SELECT movie_id
+FROM movies_revenues
+WHERE revenues_domestic > revenues_international
+);
+
+
+-- subqueries with joins
+-- List all the directors where their movies made more than the average total revenues of all english movies
+-- Lets understand outer and inner query
+-- outer query: list all directors
+-- inner query: movies made more than the average total revenues of all english movies
+-- Always start with inner query
+SELECT 
+d.director_id,
+m.movie_name,
+SUM(mr.revenues_domestic + mr.revenues_international) AS "total_revenues"
+FROM movies m 
+INNER JOIN directors d ON m.director_id = d.director_id
+INNER JOIN movies_revenues mr ON mr.movie_id = m.movie_id
+WHERE mr.revenues_domestic + mr.revenues_international > (
+SELECT 
+AVG(revenues_domestic + revenues_international) AS "avg_total_revenues"
+FROM movies_revenues)
+GROUP BY d.director_id, m.movie_name
+ORDER BY 2 DESC, 1 ASC;
+
+
+SELECT 
+    d.director_id,
+    SUM(COALESCE(mr.revenues_domestic, 0) + 
+    COALESCE(mr.revenues_international, 0)) AS "total_revenues"
+    FROM directors d
+    INNER JOIN movies mv ON mv.director_id = d.director_id
+    INNER JOIN movies_revenues mr ON mr.movie_id = mv.movie_id
+    WHERE COALESCE(mr.revenues_domestic, 0) + COALESCE(revenues_international, 0) >
+    ( 
+        SELECT AVG(COALESCE(mr.revenues_domestic, 0) + COALESCE(mr.revenues_international)) AS "avg_total_revenues"
+        FROM movies_revenues mr
+        INNER JOIN movies mv ON mv.movie_id = mr.movie_id
+        WHERE mv.movie_lang = 'English'
+    )
+
+    GROUP BY d.director_id
+    ORDER BY 2 DESC, 1 ASC;
+
+-- Order entries in a UNION without ORDER BY?
+SELECT first_name, 0 myorder, 'actors' as "tablename" FROM actors
+UNION
+SELECT first_name, 1, 'directors' as "tablename" FROM directors
+ORDER BY myorder;
+
+-- subquery with an alias
+SELECT *
+FROM 
+(
+    SELECT
+    *
+    FROM movies
+) t ;
+
+--  we will use subquery alias with joins and more.
+
+-- A SELECT without a FROM
+SELECT
+(
+    SELECT MAX(revenues_domestic) FROM movies_revenues  
+);
+
+
+
+SELECT
+(
+    SELECT MAX(revenues_domestic) FROM movies_revenues  
+)/
+(
+    SELECT MIN(revenues_international) FROM movies_revenues
+);
+
+SELECT
+(
+    SELECT MAX(revenues_domestic) FROM movies_revenues  
+),
+(
+    SELECT MIN(revenues_international) FROM movies_revenues
+);
+
+-- Correlated queries
+-- A correlated subquery is a subquery that contains a reference to a table that also appears in the
+-- outer query
+-- List movie name, movie language and movie age certificate for all movies with an above minimum length of 
+-- for each age certificate
+-- Parent query: List movie name, movie language, movie age certification
+
+SELECT
+mv1.movie_name,
+mv1.movie_lang,
+mv1.movie_length,
+mv1.age_certificate
+FROM movies mv1
+WHERE mv1.movie_length > 
+(
+    SELECT 
+        MIN(movie_length)
+    FROM movies mv2
+    WHERE mv2.age_certificate = mv1.age_certificate
+)
+ORDER BY mv1.movie_length ASC;
+
+-- List first_name, last_name and date_of_birth for the oldest actors for each gender
+
+SELECT 
+    ac1.first_name,
+    ac1.last_name,
+    ac1.date_of_birth,
+    ac1.gender
+FROM actors ac1
+WHERE 
+    ac1.date_of_birth >
+(
+    SELECT
+    MIN(date_of_birth)
+    FROM actors ac2
+    WHERE ac1.gender = ac2.gender
+)
+ORDER BY ac1.date_of_birth;
+
+-- Using IN with subquery
+SELECT column_list
+FROM table_name 
+WHERE 
+    column_name in (SELECT statement);
+
+
+-- Find suppliers that are same countries as customers
+SELECT * FROM customers WHERE country = 'UK';
+SELECT * FROM suppliers WHERE country = 'UK';
+SELECT
+ * FROM suppliers
+WHERE country IN
+(
+    SELECT country FROM customers
+
+);
+
+-- Find customers that are same city as suppliers
+SELECT
+* FROM customers
+WHERE 
+    city IN (SELECT city FROM customers);
+
+-- Using any with subquery
+SELECT column_list
+FROM tablename
+WHERE 
+    columnname operator_expression ANY (SELECT statement)
+-- Operator expression
+=, !=, >, >=, <, <=
+-- Logically IN is equivalent to ANY
+-- The ANY construct is far more versatile, as it can be combined with various operators,not just =.
+-- Find customers details where they ordered more than 20 items in a single order
+SELECT * FROM customers
+WHERE customer_id = ANY
+(SELECT
+customer_id FROM orders
+INNER JOIN order_details ON order_details.order_id = orders.order_id
+WHERE quntity> 20
+);
+
+-- Using ALL with subquery
+-- With ANY, any rows with the filter criterial (columnname, operator_expression) are selected
+-- with ALL, all rows returning from subquery must be equal to filter criterial (columnname, operator_expression)
+
+-- Find all products where their order amount were lower than the average amount of all the products
+
+SELECT
+* FROM products
+INNER JOIN order_details ON order_details.product_id = products.product_id
+WHERE
+    ((order_details.unit_price*order_details.quantity)-order_details.discount) < ALL
+    (
+        SELECT 
+            product_id,
+            AVG((unit_price* ) - discount)
+
+        FROM order_details
+        GROUP BY product_id
+    );
+
+
+-- Subquery with EXISTS
+/*
+SELECT colulmn_list,
+FROM tablename
+WHERE EXISTS (SELECT column_name FROM tablename WHERE conditions)
+*/
+SELECT 
+* FROM suppliers
+WHERE EXISTS (
+    SELECT
+    * FROM products
+    WHERE
+        unit_price < 100 -- ORDER BY unit_price DESC
+    AND products.supplier_id = suppliers.supplier_id
+);
+
+-- Common Table Expressions (CTEs)
+-- 1. CTE is a temporary result taken from SQL STATEMENT
+-- 2. A second approach to create temporary tables for query data instead of using subqueries in
+-- a from clause
+-- SELECT * FROM 
+-- (sub
+    -- ) = CTE
+-- A good alternative of subqueries
+-- Using the CTE, you can define one or more tables upfront with subqueries
+-- CTE1 - table1
+-- CTE2 - table2
+-- CTE3 - table3
+
+-- Unlike subqueries, CTEs can be reference multiple times in multiple places in query STATEMENT
+-- CTEs can be used to improve readability and interpretability of the code
+-- CTEs are non recursive type by DEFAULT
+-- The life time of a CTE is equal to the lifetime of the query
+-- FROM PostgreSQL version 12, things have changed, and two new options have been introduced for the execution
+-- of a CTE, namely, Materialized, not materialized
+-- CTEs are normally used to simplyfy complex joins and subqueries
+-- Ability to create recursive queries
+-- Use in conjunction with window functions e.g RANK()
+-- Syntax
+/*
+WITH cte_name (column list) AS (
+    CTE_query_definition
+)
+statement
+*/
+-- The statement can contains SELECT, INSERT, UPDATE, or DELETE
+-- Lets create a  number series from 1 to 10
+WITH num as (
+   SELECT * FROM generate_series(1,10) AS id
+)
+-- upfront data
+SELECT * FROM num;
+-- List all movies by director_id\
+WITH cte_director_1 AS
+(
+    SELECT * 
+    FROM movies mv
+    INNER JOIN directors d ON d.director_id = mv.director_id
+    WHERE d.director_id = 1
+)
+
+SELECT * FROM cte_director_1;
+
+-- Lets view all long movies where long movies are 120 hours
+WITH cte_long_movies AS
+(
+    -- < 100  short
+    -- < 120 medium
+    -- > 120 long
+    SELECT movie_name, movie_length,
+    (
+    CASE
+        WHEN movie_length > 100 THEN 'Short'
+        WHEN movie_length > 120 THEN 'Medium'
+        ELSE 'Long'
+    END
+    ) AS m_length
+    FROM movies
+
+)
+SELECT * FROM cte_long_movies  
+WHERE m_length = 'Long' ;
+
+
+-- Combine CTE with table
+-- Lets calculate total revenues for each directors
+WITH cte_movie_count AS (
+
+    SELECT
+        d.director_id,
+        SUM(revenues_domestic + revenues_international) as total_revenues
+    FROM directors d 
+    INNER JOIN movies mv ON mv.director_id = d.director_id
+    INNER JOIN movies_revenues mr ON mr.movie_id = mv.movie_id
+    GROUP BY d.director_id
+)
+
+SELECT
+d.director_id,
+d.first_name,
+d.last_name,
+cte.total_revenues
+FROM cte_movie_count cte
+INNER JOIN directors d ON d.director_id = cte.director_id;
+
+-- Simultaneous DELETE, INSERT via CTE 
+-- lets take scenario, we have:
+/*
+    articles                  main articles
+    articles_delete           all the articles athat are deleted
+    we want to delete some rows in articles table, and
+    we want all the records that we have deleted from the articles table 
+    to be inserted into articles_deleted table 
+*/
+
+CREATE TABLE articles (
+    article_id SERIAL PRIMARY KEY,
+    title VARCHAR(100)
+);
+
+
+CREATE TABLE articles_deleted AS SELECT * FROM articles limit 0; --creating table with same schema as articles table
+
+
+INSERT INTO articles (title) VALUES
+('ARTICLE1'),
+('ARTICLE2'),
+('ARTICLE3'), 
+('ARTICLE4');
+
+
+SELECT * FROM articles;
+SELECT * FROM articles_deleted;
+
+WITH cte_delete_articles AS
+(
+    DELETE FROM articles
+    WHERE article_id  = 1
+    RETURNING * 
+)
+INSERT INTO articles_deleted
+SELECT * FROM cte_delete_articles; -- inserting the data that delete from articles table into articles_deleted table
+
+-- Lets do similar operations with INSERT
+-- suppose we want to move all data from articles to another table articles_insert
+
+CREATE TABLE articles_insert AS SELECT * FROM articles limit 0;
+
+
+WITH cte_move_articles AS
+(
+    DELETE FROM articles 
+    RETURNING *
+)
+
+INSERT INTO articles_insert
+SELECT * FROM cte_move_articles;
+
+/*
+1.CTEs that calls itself until a condition met 
+2.Can be used to work with heirarchical data 
+3.The traditional solution would involve some kind of iteration, probably by means of a cursor  that iterates one tuple
+at a time over the whole resultset.
+4.The logic of recursive CTE is like a 'for loop' in programming language
+5.when we use CTEs it is important to avoid infinate loops. these can happen if the recursion does not end properly
+
+WITH RECURSIVE cte_name AS 
+(
+    CTE_query_definition -- non-recursive term
+    UNION [ALL]   
+    CTE_query definition --recursive term
+    exit conditions
+)
+
+SELECT * FROM cte_name
+*/
+-- Creating a time series with recursive CTEs
+WITH RECURSIVE series (list_num) AS
+(
+    -- non recursive term
+    SELECT 10
+    UNION ALL
+    -- recursive term
+    SELECT list_num + 5 FROM series
+    WHERE list_num + 5 <= 50
+)
+
+SELECT list_num FROM series;
+
+
+CREATE TABLE items (
+    pk SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    parent INT
+);
+
+INSERT INTO items (pk, name, parent) VALUES
+(1, 'vegetables', 0),
+(2, 'fruits', 0),
+(3, 'apple', 2),
+(4, 'banana', 2);
+
+
+-- tree level, name 
+-- 1. vegetable, 
+-- 2. fruits,
+-- 3. fruits -> apple
+-- 4. fruits -> banana
+
+WITH RECURSIVE cte_tree AS
+(
+    --  non recursive statements
+    -- all parent info
+    SELECT
+        name,
+        pk,
+        1 AS tree_level
+    FROM items
+    WHERE parent = 0
+    UNION
+    -- recursive statments
+    -- loop to get all child of each parent
+    SELECT
+        tt.name || ' --> ' ||ct.name, 
+        ct.pk, 
+        tt.tree_level + 1 
+    FROM items ct 
+    JOIN cte_tree tt ON tt.pk = ct.parent
+    
+)
+
+SELECT
+    tree_level, name 
+FROM cte_tree
+ORDER BY tree_level;
